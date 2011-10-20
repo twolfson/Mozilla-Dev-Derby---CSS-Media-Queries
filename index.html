@@ -1,0 +1,52 @@
+<!doctype>
+<head>
+	<title>MDN Derby - October 2011</title>
+	<style>
+		.left_speech_bubble {
+			width: 120px;
+			height: 80px;
+			background: red;
+			position: relative;
+			-moz-border-radius: 10px;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+		}
+
+		.left_speech_bubble:before {
+			content:"";
+			position: absolute;
+			right: 100%;
+			top: 26px;
+			width: 0;
+			height: 0;
+			border-top: 13px solid transparent;
+			border-right: 26px solid red;
+			border-bottom: 13px solid transparent;
+		}
+	</style>
+</head>
+<body>
+<aside id="left_info">
+	<div class="left_speech_bubble">
+		Resize the browser to count your way through common shapes!
+	</div>
+	<nav id="nav">
+		<div id="nav_circle" class="linkable circle">Circle</div>
+		<div id="nav_line" class="linkable line">Line</div>
+		<div id="nav_triangle" class="linkable triangle">Triangle</div>
+		<div id="nav_square" class="linkable square">Square</div>
+		<div id="nav_pentagon" class="linkable pentagon">Pengtagon</div>
+		<div id="nav_hexagon" class="linkable hexagon">Hexagon</div>
+		<div id="nav_septagon" class="linkable septagon?">Septagon?</div>
+		<div id="nav_octagon" class="linkable octagon">Octagon</div>
+		<div id="nav_infinity" class="linkable infinity">Infinity</div>
+	</nav>
+</aside>
+<div id="content">
+</div>
+<script>
+	// Bind smooth resize to nav_ items
+	// Use history API?
+</script>
+</body>
+</html>

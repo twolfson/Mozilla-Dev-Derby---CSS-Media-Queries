@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>MDN Derby - October 2011</title>
+	<style>
+		.label {
+			display: inline-block;
+			width: 3.3em;
+		}
+
+		.warning {
+			font-weight: bold;
+			color: red;
+		}
+
+		.left_speech_bubble {
+			width: 120px;
+			height: 80px;
+			background: red;
+			position: relative;
+			-moz-border-radius: 10px;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+		}
+
+		.left_speech_bubble:before {
+			content:"";
+			position: absolute;
+			right: 100%;
+			top: 26px;
+			width: 0;
+			height: 0;
+			border-top: 13px solid transparent;
+			border-right: 26px solid red;
+			border-bottom: 13px solid transparent;
+		}
+
+		.shape {
+			/* TODO: All browsers */
+			background: blue;
+			transition: all 1s;
+			-moz-transition: all 1s;
+			-webkit-transition: all 1s;
+			-o-transition: all 1s;
+		}
+
+		@media screen and (max-width: 640px) {
+			.shape {
+				width: 100px;
+				background: green;
+				height: 100px;
+				border-radius: 50px;
+			}
+		}
+
+		@media screen and (min-width: 641px) {
+			.shape {
+				width: 100px;
+				background: orange;
+				height: 100px;
+				border-radius: 50px;
+				border-radius: 0;
+			}
+		}
+	</style>
+</head>
+<body>
+<div id="content">
+	<div class="shape">&nbsp;</div>
+</div>
+<aside id="left_info">
+	<div class="left_speech_bubble">
+		Resize the browser to count your way through common shapes!
+	</div>
+	<nav id="nav">
+		<div id="nav_circle" class="linkable circle">Circle</div>
+		<div id="nav_line" class="linkable line">Line</div>
+		<div id="nav_triangle" class="linkable triangle">Triangle</div>
+		<div id="nav_square" class="linkable square">Square</div>
+		<div id="nav_pentagon" class="linkable pentagon">Pengtagon</div>
+		<div id="nav_hexagon" class="linkable hexagon">Hexagon</div>
+		<div id="nav_septagon" class="linkable septagon?">Septagon?</div>
+		<div id="nav_octagon" class="linkable octagon">Octagon</div>
+		<div id="nav_infinity" class="linkable infinity">Infinity</div>
+		<form action="">
+			<fieldset>
+				<legend>Resize window</legend>
+				<label for="resizeHeight" class="label">Height: </label><input type="text" id="resizeHeight" name="resizeHeight"/>
+				<br/>
+				<label for="resizeWidth" class="label">Width: </label><input type="text" id="resizeWidth" name="resizeWidth"/>
+				<br/>
+				<input type="submit" onclick="resize(); return false;" value="Resize window"/>
+				<div id="notice" class="warning"></div>
+			</fieldset>
+		</form>
+	</nav>
+</aside>
+<script>
+// todo: use smaller icons for the link nav's based on media query =D
+	var resizeInterval,
+			resizeMain = parent.resizeMain;
+
+	function resizeTo(width, height) {
+		if( resizeInterval ) {
+			clearInterval(resizeInterval);
+		}
+		// TODO: Create easing interval (look at jQuery)
+		resizeMain(width, height);
+	}
+
+	var doc = document,
+			resizeHeight = doc.getElementById('resizeHeight'),
+			resizeWidth = doc.getElementById('resizeWidth'),
+			notice = doc.getElementById('notice');
+
+	function resize() {
+		var height = +getResizeHeight(),
+				width = +getResizeWidth(),
+				invalid = false;
+
+		if( height < 240 ) {
+			invalid = true;
+			setResizeHeight(240);
+		}
+
+		if( width < 320 ) {
+			invalid = true;
+			setResizeWidth(320);
+		}
+
+		if( invalid ) {
+			postNotice('Sorry, height must be over 240 and width over 320');
+		} else {
+			postNotice('');
+			resizeMain(width, height);
+		}
+	}
+
+	function postNotice(text) {
+		notice.innerHTML = text;
+	}
+
+	function getResizeWidth() {
+		return resizeWidth.value;
+	}
+
+	function getResizeHeight() {
+		return resizeHeight.value;
+	}
+
+	function setResizeWidth(val) {
+		resizeWidth.value = val;
+	}
+
+	function setResizeHeight(val) {
+		resizeHeight.value = val;
+	}
+
+</script>
+<script>
+	// Bind smooth resize to nav_ items
+	// Use history API?
+	// CSS 3 transiton between shapes
+	// Idea, different background depending on size [this is just another iteration of the wheel]
+	// We need something AMAZING
+</script>
+</body>
+</html>

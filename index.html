@@ -12,23 +12,33 @@
 		}
 		iframe {
 			overflow: hidden;
+			border: 0;
 		}
 		#shapes {
-			border: 1px solid #000;
 			transition: all 1s;
 		}
 		.linkable {
 			cursor: pointer;
 		}
-    .size1of2 {
-      width: 50%;
+    .size1of3 {
+      width: 33%;
     }
     .unit {
       float: left;
     }
+    .border {
+      border: 5px solid #000;
+    }
     #shapesNav {
       text-align: right;
       margin-right: 1em;
+      width: 6em;
+    }
+    #shapesFieldset {
+      width: 10em;
+    }
+    .selected {
+      font-weight: bold;
     }
 	</style>
 </head>
@@ -36,7 +46,19 @@
 	<!-- window.resizeTo is not enabled by default in FF -->
 	<!-- In Chrome, you can only do it to pop-ups -->
 	<!-- My solution? An iframe =) -->
-	<section id="shapesSection" class="size1of2 unit">
+	<section id="shapesSection" class="size1of3 unit">
+    <h1>
+      Shapes
+    </h1>
+    <article>
+      Below is an iframe that displays a different shape and color based on its size. This was done using CSS Media Queries.
+      Additionally, we can toggle the &quot;smooth&quot; transition by using Media Queries.
+      <br/>
+      <br/>
+      We could make the toggle more granular, however that would require many more media queries and take away from the purpose of this project.
+      <br/>
+      <br/>
+    </article>
 		<nav id="shapesNav" class="unit">
 			<button id="shapes_nav_circle" class="linkable circle" onclick="resizeShapeTo('circle')">
 				Circle
@@ -70,41 +92,159 @@
 				Infinity
 			</button>
 		</nav>
-	<iframe id="shapes" src="shapes.html" width="100" height="105"></iframe>
-	<script>
-		var shapes = document.getElementById('shapes');
+    <iframe id="shapes" src="shapes.html" width="100" height="105"></iframe>
+    <fieldset id="shapesFieldset">
+      <legend>Options</legend>
+      <input type="checkbox" id="cycleShapes" name="cycleShapes" checked="checked"><label for="cycleShapes" class="linkable">Cycle shapes</label>
+      <br/>
+      <input type="checkbox" id="animateShapes" name="animateShapes" checked="checked"><label for="animateShapes" class="linkable">Animate shapes</label>
+      <br/>
+      <input type="checkbox" id="borderShapes" name="borderShapes"><label for="borderShapes" class="linkable">Show iframe border</label>
+    </fieldset>
+    <script>
+      var shapes = document.getElementById('shapes');
 
-		function resizeShapesWidth(width) {
-			shapes.width = width;
-		}
-		function resizeShapesHeight(height) {
-			shapes.height = height;
-		}
-    // TODO: Add checkbox for CSS transitions and play/pause and toggle for border
+      function resizeShapesWidth(width) {
+        shapes.width = width;
+      }
+      function resizeShapesHeight(height) {
+        shapes.height = height;
+      }
 
-		var shapeConsts = {
-			'circle': 100,
-			'line': 200,
-			'triangle': 99,
-			'square': 101,
-			'pentagon': 120,
-			'hexagon': 130,
-			'octagon': 140,
-			'infinity': 250
-		};
+      var shapeConsts = {
+        'circle': 100,
+        'line': 200,
+        'triangle': 99,
+        'square': 101,
+        'pentagon': 120,
+        'hexagon': 130,
+        'octagon': 140,
+        'infinity': 250
+      },
+      shapeOrder = {
+        'circle': 'line',
+        'line': 'triangle',
+        'triangle': 'square',
+        'square': 'pentagon',
+        'pentagon': 'hexagon',
+        'hexagon': 'octagon',
+        'octagon': 'infinity',
+        'infinity': 'circle'
+      },
+      currentShapeSelection,
+      currentShape,
+      defaultShape = 'circle';
 
-		function resizeShapeTo(shapeKey) {
-			var shapeVal = shapeConsts[shapeKey];
+      function logWarning(msg) {
+        if( console && console.log ) {
+          console.warn(msg);
+        }
+      }
 
-			if( !shapeVal ) {
-				if( console && console.log ) {
-					console.log('Bad shape: ' + shapeKey );
-				}
-				return;
-			}
+      // Switcher between shapes
+      function resizeShapeTo(shapeKey) {
+        var shapeVal = shapeConsts[shapeKey];
 
-			resizeShapesWidth(shapeVal);
-		}
-	</script>
+        if( !shapeVal ) {
+          logWarning('Bad shape: ' + shapeKey);
+          return;
+        }
+
+        resizeShapesWidth(shapeVal);
+
+        // Tell user currently selected shape
+        selectShapeButton(shapeKey);
+
+        // Restart the cycle
+        clearTimeout(shapeTimeout);
+        currentShape = shapeKey;
+        if( cycleShapeBoolean ) {
+          cycleShape();
+        }
+      }
+
+      // Shape button highlighting
+      function selectShapeButton(shapeKey) {
+        var shapeSelection;
+        if( currentShapeSelection ) {
+          currentShapeSelection.className = currentShapeSelection.className.replace(/selected/g, '');
+        }
+
+        shapeSelection = document.getElementById('shapes_nav_' + shapeKey);
+        if( !shapeSelection ) {
+          logWarning('Bad button id: ' + shapeKey);
+          return;
+        }
+
+        shapeSelection.className += ' selected';
+        currentShapeSelection = shapeSelection;
+      }
+
+      selectShapeButton(defaultShape);
+
+      // Toggle play/pause
+      var cycleShapeBoolean = true,
+          cycleShapesCheckbox = document.getElementById('cycleShapes');
+
+      function updateCycleShapeBoolean() {
+        cycleShapeBoolean = cycleShapesCheckbox.checked;
+        cycleShape();
+      }
+
+      // In case of reload, check
+      updateCycleShapeBoolean();
+
+      // Bind now
+      cycleShapesCheckbox.onclick = updateCycleShapeBoolean;
+
+      // Shape cycling
+      var shapeTimeout;
+      function cycleShape(key) {
+        shapeTimeout = setTimeout( function () {
+          if( cycleShapeBoolean ) {
+            resizeShapeTo(shapeOrder[currentShape] || defaultShape);
+          }
+          // This is being handled by resizeShapeTo
+          // cycleShape(nextKey);
+        }, 5000);
+      }
+      cycleShape();
+      
+      // Toggle animation
+      var animateShapesCheckbox = document.getElementById('animateShapes');
+
+      function animateShapesFn() {
+        if( animateShapesCheckbox.checked === true ) {
+          shapes.height = 105;
+        } else {
+          shapes.height = 106;
+        }
+      }
+
+      // In case of reload, check
+      animateShapesFn();
+
+      // Bind now
+      animateShapesCheckbox.onclick = animateShapesFn;
+      
+      // Toggle border
+      var borderShapesCheckbox = document.getElementById('borderShapes');
+
+      function borderShapesFn() {
+        if( borderShapesCheckbox.checked === true ) {
+          shapes.className += 'border';
+        } else {
+          shapes.className = shapes.className.replace(/border/g, '');
+        }
+      }
+
+      // In case of reload, check
+      borderShapesFn();
+
+      // Bind now
+      borderShapesCheckbox.onclick = borderShapesFn;
+
+    </script>
+  </section>
 </body>
 </html>

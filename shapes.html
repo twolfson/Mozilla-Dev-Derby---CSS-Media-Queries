@@ -10,19 +10,23 @@
 
 		.shape {
 			border-radius: 0px;
+      border-color: #FFF;
+      background: #FFF;
 		}
 
 		.shape:before, .shape:after {
 			content: "";
+      border-color: #FFF;
+      background: #FFF;
 		}
 		
 		/* CSS Transitions */
 		@media (height: 105px) {
 			.shape, .shape:before, .shape:after {
-				transition: color 1s, border-radius 1s, width 1s, height 1s;
-				-moz-transition: color 1s, border-radius 1s, width 1s, height 1s;
-				-webkit-transition: color 1s, border-radius 1s, width 1s, height 1s;
-				-o-transition: color 1s, border-radius 1s, width 1s, height 1s;
+				transition: background 1s, color 1s, border-radius 1s, width 1s, height 1s;
+				-moz-transition: background 1s, color 1s, border-radius 1s, width 1s, height 1s;
+				-webkit-transition: background 1s, color 1s, border-radius 1s, width 1s, height 1s;
+				-o-transition: background 1s, color 1s, border-radius 1s, width 1s, height 1s;
 			}
 		}
 
@@ -151,8 +155,8 @@
 				bottom: 0;
 				left: 0;
 				border-top: 29px solid purple;
-				border-left: 29px solid #eee;
-				border-right: 29px solid #eee;
+				border-left: 29px solid white;
+				border-right: 29px solid white;
 				width: 42px;
 				height: 0;
 			}

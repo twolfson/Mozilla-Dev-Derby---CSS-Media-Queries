@@ -7,9 +7,16 @@
 			margin: 0;
 			padding: 0;
 		}
+    
+    body {
+      overflow: hidden;
+    }
+
 
 		.shape {
-			border-radius: 0px;
+      -moz-border-radius: 0;
+      -webkit-border-radius: 0;
+			border-radius: 0;
       border-color: #FFF;
       background: #FFF;
 		}
@@ -24,8 +31,8 @@
 		@media (height: 105px) {
 			.shape, .shape:before, .shape:after {
 				transition: background 1s, color 1s, border-radius 1s, width 1s, height 1s;
-				-moz-transition: background 1s, color 1s, border-radius 1s, width 1s, height 1s;
-				-webkit-transition: background 1s, color 1s, border-radius 1s, width 1s, height 1s;
+				-moz-transition: background 1s, color 1s, -moz-border-radius 1s, width 1s, height 1s;
+				-webkit-transition: background 1s, color 1s, -webkit-border-radius 1s, width 1s, height 1s;
 				-o-transition: background 1s, color 1s, border-radius 1s, width 1s, height 1s;
 			}
 		}
@@ -36,7 +43,8 @@
 				width: 100px;
 				background: red;
 				height: 100px;
-		/*TODO: ALL BROWSER BORDER RADIUS */
+				-moz-border-radius: 50px;
+				-webkit-border-radius: 50px;
 				border-radius: 50px;
 			}
 		}
@@ -50,7 +58,7 @@
 			}
 		}
 
-		/* Triangle */ /*TODO: Improve*/
+		/* Triangle */
 		@media (width: 99px) {
 			.shape {
 				width: 0;
@@ -179,6 +187,7 @@
 				height: 60px;
 				border: 20px solid black;
 				-moz-border-radius: 50px 50px 0 50px;
+				-webkit-border-radius: 50px 50px 0 50px;
 				border-radius: 50px 50px 0 50px;
 				-webkit-transform: rotate(-45deg);
 				-moz-transform: rotate(-45deg);
@@ -191,6 +200,7 @@
 				left: auto;
 				right: 0;
 				-moz-border-radius: 50px 50px 50px 0;
+				-webkit-border-radius: 50px 50px 50px 0;
 				border-radius: 50px 50px 50px 0;
 				-webkit-transform: rotate(45deg);
 				-moz-transform: rotate(45deg);

@@ -1,0 +1,100 @@
+<!doctype>
+<html>
+<head>
+	<title>MDN Derby - October 2011 (Sprite)</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		.sprite {
+      position: absolute;
+      top: 0;
+      left: 0;
+		}
+
+    /* Each has image -108, -144 */
+
+    /* Column 1 */
+    @media (width: 108px) {
+      .sprite {
+        left: 0;
+      }
+    }
+
+    /* Column 2 */
+    @media (width: 109px) {
+      .sprite {
+        left: -108px;
+      }
+    }
+
+    /* Column 3 */
+    @media (width: 110px) {
+      .sprite {
+        left: -216px;
+      }
+    }
+
+    /* Column 4 */
+    @media (width: 111px) {
+      .sprite {
+        left: -324px;
+      }
+    }
+
+    /* Column 5 */
+    @media (width: 112px) {
+      .sprite {
+        left: -432px;
+      }
+    }
+
+    /* Column 6 */
+    @media (width: 113px) {
+      .sprite {
+        left: -540px;
+      }
+    }
+
+    /* Column 7 */
+    @media (width: 114px) {
+      .sprite {
+        left: -648px;
+      }
+    }
+    
+    /* Row 1 */
+    @media (height: 144px) {
+      .sprite {
+        top: 0;
+      }
+    }
+    
+    /* Row 2 */
+    @media (height: 145px) {
+      .sprite {
+        top: -144px;
+      }
+    }
+    
+    /* Row 3 */
+    @media (height: 146px) {
+      .sprite {
+        top: -288px;
+      }
+    }
+    
+    /* Row 4 */
+    @media (height: 147px) {
+      .sprite {
+        top: -432px;
+      }
+    }
+	</style>
+</head>
+<body>
+<img class="sprite" src="sprite.png"/>
+</body>
+</html>

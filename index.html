@@ -20,8 +20,8 @@
     .size1of3 {
       width: 33%;
     }
-    .size1of4 {
-      width: 33%;
+    .size1of5 {
+      width: 20%;
     }
     .unit {
       float: left;
@@ -51,7 +51,7 @@
       width: 6em;
     }
     #shapesFieldset {
-      width: 10em;
+      width: 14em;
     }
 	</style>
 </head>
@@ -110,7 +110,7 @@
       <legend>Options</legend>
       <input type="checkbox" id="cycleShapes" name="cycleShapes" checked="checked"><label for="cycleShapes" class="linkable">Cycle shapes</label>
       <br/>
-      <input type="checkbox" id="animateShapes" name="animateShapes" checked="checked"><label for="animateShapes" class="linkable">Animate shapes</label>
+      <input type="checkbox" id="animateShapes" name="animateShapes" checked="checked"><label for="animateShapes" class="linkable">Animate shapes (media query)</label>
       <br/>
       <input type="checkbox" id="borderShapes" name="borderShapes" checked="checked"><label for="borderShapes" class="linkable">Show iframe border</label>
     </fieldset>
@@ -262,6 +262,196 @@
     <br/>
     <footer class="center">
       Attribution to <a href="http://css-tricks.com/">CSS Tricks</a>, <a href="http://meyerweb.com/">Eric Meyer</a>, and <a href="http://www.infimum.dk/">http://www.infimum.dk/</a> for providing the CSS shapes.
+    </footer>
+  </section>
+  <section id="spacerSection" class="size1of5 unit">
+    &nbsp;
+  </section>
+	<section id="spriteSection" class="size1of3 unit">
+    <h1>
+      Sprite
+    </h1>
+    <article>
+      As with shapes, we will be using an iframe below. However, instead of shapes, we will be using sprites.
+      <br/>
+      <br/>
+      This typically is done via a div with a background image and overflow: hidden. However, for this exercise we will use an image since you cannot break up background-offset into left and top exclusively.
+      <br/>
+      <br/>
+      Once again, there are options below for your inspecting pleasure.
+      <br/>
+      <br/>
+    </article>
+		<nav id="spriteNav" class="unit">
+			<button id="sprite_nav_down" class="linkable down" onclick="resizeSpriteTo('down')">
+				Down
+			</button>
+      <br/>
+			<button id="sprite_nav_up" class="linkable up" onclick="resizeSpriteTo('up')">
+				Up
+			</button>
+			<br/>
+			<button id="sprite_nav_right" class="linkable right" onclick="resizeSpriteTo('right')">
+				Right
+			</button>
+			<br/>
+			<button id="sprite_nav_left" class="linkable left" onclick="resizeSpriteTo('left')">
+				Left
+			</button>
+		</nav>
+    <iframe id="spriteFrame" src="sprite.html" width="108px" height="144px"></iframe>
+    <fieldset id="shapesFieldset">
+      <legend>Options</legend>
+      <input type="checkbox" id="cycleSpriteDirection" name="cycleSpriteDirection" checked="checked"><label for="cycleSpriteDirection" class="linkable">Cycle direction</label>
+      <br/>
+      <input type="checkbox" id="cycleSpriteWalk" name="cycleSpriteWalk" checked="checked"><label for="cycleSpriteWalk" class="linkable">Cycle walk</label>
+      <br/>
+      <input type="checkbox" id="borderSprite" name="borderSprite" checked="checked"><label for="borderSprite" class="linkable">Show iframe border</label>
+    </fieldset>
+    <script>
+      var spriteFrame = document.getElementById('spriteFrame');
+
+      function resizeSpriteWidth(width) {
+        spriteFrame.width = width;
+      }
+      function resizeSpriteHeight(height) {
+        spriteFrame.height = height;
+      }
+
+      var spriteConstant = {
+        'down': 144,
+        'up': 145,
+        'right': 146,
+        'left': 147
+      },
+      spriteOrder = {
+        'down': 'up',
+        'up': 'right',
+        'right': 'left',
+        'left': 'down'
+      },
+      currentSpriteSelection,
+      currentSprite,
+      defaultSprite = 'down';
+
+      // Switcher between sprites
+      function resizeSpriteTo(spriteKey) {
+        var spriteVal = spriteConstant[spriteKey];
+        if( !spriteVal ) {
+          logWarning('Bad sprite: ' + spriteKey);
+          return;
+        }
+
+        resizeSpriteHeight(spriteVal);
+
+        // Tell user currently selected sprite
+        selectSpriteButton(spriteKey);
+
+        // Restart the cycle
+        clearTimeout(spriteTimeout);
+        currentSprite = spriteKey;
+        if( cycleSpriteDirection ) {
+          cycleSprite();
+        }
+      }
+
+      // Sprite button highlighting
+      function selectSpriteButton(spriteKey) {
+        var spriteSelection;
+        if( currentSpriteSelection ) {
+          currentSpriteSelection.className = currentSpriteSelection.className.replace(/selected/g, '');
+        }
+
+        spriteSelection = document.getElementById('sprite_nav_' + spriteKey);
+        if( !spriteSelection ) {
+          logWarning('Bad button id: ' + spriteKey);
+          return;
+        }
+
+        spriteSelection.className += ' selected';
+        currentSpriteSelection = spriteSelection;
+      }
+
+      selectSpriteButton(defaultSprite);
+
+      // Toggle direction cycle
+      var cycleSpriteDirection = true,
+          cycleSpriteDirectionCheckbox = document.getElementById('cycleSpriteDirection');
+
+      function updateCycleSpriteDirection() {
+        cycleSpriteDirection = cycleSpriteDirectionCheckbox.checked;
+        cycleSprite();
+      }
+
+      // In case of reload, check
+      updateCycleSpriteDirection();
+
+      // Bind now
+      cycleSpriteDirectionCheckbox.onclick = updateCycleSpriteDirection;
+
+      // sprite cycling
+      var spriteTimeout;
+      function cycleSprite() {
+        spriteTimeout = setTimeout( function () {
+          if( cycleSpriteDirection ) {
+            resizeSpriteTo(spriteOrder[currentSprite] || defaultSprite);
+          }
+          // This is being handled by resizespriteTo
+          // cycleSprite(nextKey);
+        }, 3000);
+      }
+      cycleSprite();
+
+      // Toggle animation
+      var cycleSpriteWalk = true,
+          cycleSpriteWalkCheckbox = document.getElementById('cycleSpriteWalk'),
+          spriteWalkTimeout;
+          
+      (function walkSprite() {
+        setTimeout(function () {
+          var nextWidth;
+          if( cycleSpriteWalk ) {
+            nextWidth = parseInt(spriteFrame.width) + 1;
+            if( nextWidth === 115 ) {
+              nextWidth = 108;
+            }
+            spriteFrame.width = nextWidth;
+          }
+          walkSprite();
+        }, 100);
+      }());
+
+      function updateSpriteWalkFn() {
+        cycleSpriteWalk = cycleSpriteWalkCheckbox.checked;
+      }
+
+      // In case of reload, check
+      updateSpriteWalkFn();
+
+      // Bind now
+      cycleSpriteWalkCheckbox.onclick = updateSpriteWalkFn;
+
+      // Toggle border
+      var borderSpritesCheckbox = document.getElementById('borderSprite');
+
+      function borderSpritesFn() {
+        if( borderSpritesCheckbox.checked === true ) {
+          spriteFrame.className += 'border';
+        } else {
+          spriteFrame.className = spriteFrame.className.replace(/border/g, '');
+        }
+      }
+
+      // In case of reload, check
+      borderSpritesFn();
+
+      // Bind now
+      borderSpritesCheckbox.onclick = borderSpritesFn;
+    </script>
+    <br/>
+    <br/>
+    <footer class="center">
+      Attribution to <a href="http://www.flickr.com/photos/elderleaf/1396054242/">elderleaf on Flickr</a> for the sprite sheet.
     </footer>
   </section>
 </body>

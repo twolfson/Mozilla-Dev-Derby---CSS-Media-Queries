@@ -3,6 +3,7 @@
 <head>
 	<title>MDN Derby - October 2011</title>
 	<style>
+    /* Visual fixes (poor man's reset/normalize.css) */
 		* {
 			margin: 0;
 			padding: 0;
@@ -14,21 +15,36 @@
 			overflow: hidden;
 			border: 0;
 		}
-		#shapes {
-			transition: all 1s;
-		}
-		.linkable {
-			cursor: pointer;
-		}
+
+    /* OOCSS */
     .size1of3 {
+      width: 33%;
+    }
+    .size1of4 {
       width: 33%;
     }
     .unit {
       float: left;
     }
+    
+    /** General purpose classes **/
     .border {
       border: 5px solid #000;
     }
+    .linkable {
+			cursor: pointer;
+		}
+    .selected {
+      font-weight: bold;
+    }
+    .center {
+      text-align: center;
+    }
+
+    /** Specific properties **/
+    #shapes {
+			transition: all 1s;
+		}
     #shapesNav {
       text-align: right;
       margin-right: 1em;
@@ -36,9 +52,6 @@
     }
     #shapesFieldset {
       width: 10em;
-    }
-    .selected {
-      font-weight: bold;
     }
 	</style>
 </head>
@@ -99,7 +112,7 @@
       <br/>
       <input type="checkbox" id="animateShapes" name="animateShapes" checked="checked"><label for="animateShapes" class="linkable">Animate shapes</label>
       <br/>
-      <input type="checkbox" id="borderShapes" name="borderShapes"><label for="borderShapes" class="linkable">Show iframe border</label>
+      <input type="checkbox" id="borderShapes" name="borderShapes" checked="checked"><label for="borderShapes" class="linkable">Show iframe border</label>
     </fieldset>
     <script>
       var shapes = document.getElementById('shapes');
@@ -209,13 +222,13 @@
         }, 5000);
       }
       cycleShape();
-      
+
       // Toggle animation
       var animateShapesCheckbox = document.getElementById('animateShapes');
 
       function animateShapesFn() {
         if( animateShapesCheckbox.checked === true ) {
-          shapes.height = 105;
+          shapes.style.height = 105;
         } else {
           shapes.height = 106;
         }
@@ -226,7 +239,7 @@
 
       // Bind now
       animateShapesCheckbox.onclick = animateShapesFn;
-      
+
       // Toggle border
       var borderShapesCheckbox = document.getElementById('borderShapes');
 
@@ -245,6 +258,11 @@
       borderShapesCheckbox.onclick = borderShapesFn;
 
     </script>
+    <br/>
+    <br/>
+    <footer class="center">
+      Attribution to <a href="http://css-tricks.com/">CSS Tricks</a>, <a href="http://meyerweb.com/">Eric Meyer</a>, and <a href="http://www.infimum.dk/">http://www.infimum.dk/</a> for providing the CSS shapes.
+    </footer>
   </section>
 </body>
 </html>

@@ -1,0 +1,51 @@
+<!doctype>
+<html>
+<head>
+	<title>MDN Derby - October 2011 (Halloween)</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		.sprite {
+      position: absolute;
+      top: 0;
+      left: 0;
+		}
+
+    /* Fix to first column of stylesheet since we are spinning */
+
+    /* Row 1 */
+    @media (height: 32px) and (width: 24px) {
+      .sprite {
+        top: 0;
+      }
+    }
+    
+    /* Row 2 */
+    @media (height: 33px) and (width: 24px) {
+      .sprite {
+        top: -31px;
+      }
+    }
+    
+    /* Row 3 */
+    @media (height: 32px) and (width: 25px) {
+      .sprite {
+        top: -64px;
+      }
+    }
+    
+    /* Row 4 */
+    @media (height: 33px) and (width: 25px) {
+      .sprite {
+        top: -95px;
+      }
+    }
+	</style>
+</head>
+<body>
+<img class="sprite" src="halloween.png"/>
+</body>
+</html>

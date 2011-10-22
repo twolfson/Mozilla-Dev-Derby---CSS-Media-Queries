@@ -15,18 +15,20 @@
 			overflow: hidden;
 			border: 0;
 		}
-
+    
     /* OOCSS */
-    .size1of3 {
-      width: 33%;
-    }
-    .size1of5 {
-      width: 20%;
-    }
     .unit {
       float: left;
     }
-    
+    @media (min-width: 800px) {
+      .size1of3 {
+        width: 33%;
+      }
+      .size1of5 {
+        width: 20%;
+      }
+    }
+
     /** General purpose classes **/
     .border {
       border: 5px solid #000;
@@ -40,8 +42,14 @@
     .center {
       text-align: center;
     }
+    .placeholder {
+      visibility: hidden;
+    }
 
     /** Specific properties **/
+    #wrapper {
+      height: 100%;
+    }
     #shapes {
 			transition: all 1s;
 		}
@@ -53,9 +61,16 @@
     #shapesFieldset {
       width: 14em;
     }
+    #halloween_footer {
+      clear: both;
+      width: 100%;
+      text-align: center;
+      margin-top: -40px;
+    }
 	</style>
 </head>
 <body>
+  <div id="wrapper">
 	<!-- window.resizeTo is not enabled by default in FF -->
 	<!-- In Chrome, you can only do it to pop-ups -->
 	<!-- My solution? An iframe =) -->
@@ -406,7 +421,7 @@
       var cycleSpriteWalk = true,
           cycleSpriteWalkCheckbox = document.getElementById('cycleSpriteWalk'),
           spriteWalkTimeout;
-          
+
       (function walkSprite() {
         setTimeout(function () {
           var nextWidth;
@@ -454,5 +469,47 @@
       Attribution to <a href="http://www.flickr.com/photos/elderleaf/1396054242/">elderleaf on Flickr</a> for the sprite sheet.
     </footer>
   </section>
+  </div>
+  <footer id="halloween_footer">
+    <a id="halloween_footer_left" href="http://www.theocotillokid.com/?p=99" title="Attribution to http://www.theocotillokid.com/">Happy Halloween!</a>
+    <iframe id="halloweenFrame" src="halloween.html" width="24px" height="32px" title="Attribution to http://www.theocotillokid.com/"></iframe>
+    <a id="halloween_footer_right" href="http://www.theocotillokid.com/?p=99" title="Attribution to http://www.theocotillokid.com/">Happy Halloween!</a>
+    <script>
+      var halloweenFrame = document.getElementById('halloweenFrame');
+      (function cycleHalloweenFrame(halloweenFrame) {
+        setTimeout( function () {
+          var currentHeight = parseInt(halloweenFrame.height),
+              currentWidth = parseInt(halloweenFrame.width),
+              nextHeight = 33,
+              nextWidth = 24;
+
+          if( currentHeight === 32 ) {
+            nextHeight = 33;
+            nextWidth = currentWidth;
+          } else {
+            nextHeight = 32;
+            nextWidth = currentWidth + 1;
+            if( nextWidth === 26 ) {
+              nextWidth = 24;
+            }
+          }
+
+          halloweenFrame.height = nextHeight;
+          halloweenFrame.width = nextWidth;
+          
+          // TODO: Commit to classes to reduce repaints
+          halloweenFrame.style.marginLeft = (24 - nextWidth) + 'px';
+          halloweenFrame.style.marginTop = (32 - nextHeight) + 'px';
+          
+          cycleHalloweenFrame(halloweenFrame);
+        }, 100 );
+      }(halloweenFrame));
+      
+      var browserWidth
+      (function () {
+      
+      }());
+    </script>
+  </footer>
 </body>
 </html>

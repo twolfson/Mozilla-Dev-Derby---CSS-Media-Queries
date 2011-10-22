@@ -1,8 +1,0 @@
-scrap this.
-integrate music api?
-make it a movie - potentially with multiple types of media queries
-
-going to go with color/shape animations (automatic though)
-and spire with directions
-
-anything more complex isn't media queries but something else

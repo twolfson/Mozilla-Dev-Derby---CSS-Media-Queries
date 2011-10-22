@@ -15,7 +15,7 @@
 			overflow: hidden;
 			border: 0;
 		}
-    
+
     /* OOCSS */
     .unit {
       float: left;
@@ -427,8 +427,15 @@
           var nextWidth;
           if( cycleSpriteWalk ) {
             nextWidth = parseInt(spriteFrame.width) + 1;
+            currentHeight = parseInt(spriteFrame.height);
+
             if( nextWidth === 115 ) {
               nextWidth = 108;
+              
+              // Fix for left/right traversal
+              if( currentHeight > 145 ) {
+                nextWidth = 109;
+              }
             }
             spriteFrame.width = nextWidth;
           }
@@ -496,18 +503,18 @@
 
           halloweenFrame.height = nextHeight;
           halloweenFrame.width = nextWidth;
-          
+
           // TODO: Commit to classes to reduce repaints
           halloweenFrame.style.marginLeft = (24 - nextWidth) + 'px';
           halloweenFrame.style.marginTop = (32 - nextHeight) + 'px';
-          
+
           cycleHalloweenFrame(halloweenFrame);
         }, 100 );
       }(halloweenFrame));
-      
+
       var browserWidth
       (function () {
-      
+
       }());
     </script>
   </footer>

@@ -48,6 +48,9 @@
     .placeholder {
       visibility: hidden;
     }
+    .clear {
+      clear: both;
+    }
 
     /** Specific properties **/
     body {
@@ -94,6 +97,7 @@
       <br/>
       <br/>
     </article>
+    <div>
 		<nav id="shapesNav" class="unit">
 			<button id="shapes_nav_circle" class="linkable circle" onclick="resizeShapeTo('circle')">
 				Circle
@@ -280,7 +284,8 @@
       borderShapesCheckbox.onclick = borderShapesFn;
 
     </script>
-    <br/>
+    </div>
+    <br class="clear"/>
     <br/>
     <footer class="center">
       Attribution to <a href="http://css-tricks.com/">CSS Tricks</a>, <a href="http://meyerweb.com/">Eric Meyer</a>, and <a href="http://www.infimum.dk/">http://www.infimum.dk/</a> for providing the CSS shapes.
@@ -304,6 +309,7 @@
       <br/>
       <br/>
     </article>
+    <div>
 		<nav id="spriteNav" class="unit">
 			<button id="sprite_nav_down" class="linkable down" onclick="resizeSpriteTo('down')">
 				Down
@@ -477,7 +483,8 @@
       // Bind now
       borderSpritesCheckbox.onclick = borderSpritesFn;
     </script>
-    <br/>
+    </div>
+    <br class="clear"/>
     <br/>
     <footer class="center">
       Attribution to <a href="http://www.flickr.com/photos/elderleaf/1396054242/">elderleaf on Flickr</a> for the sprite sheet.
